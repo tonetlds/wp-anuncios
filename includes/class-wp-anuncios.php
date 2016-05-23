@@ -75,7 +75,6 @@ class Wp_Anuncios {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -119,6 +118,8 @@ class Wp_Anuncios {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-anuncios-public.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-anuncios-widget.php';
+
 		$this->loader = new Wp_Anuncios_Loader();
 
 	}
@@ -153,6 +154,16 @@ class Wp_Anuncios {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		$this->loader->add_action( 'init', $plugin_admin, 'register_cpt' );
+
+		$this->loader->add_filter( 'rwmb_meta_boxes', $plugin_admin, 'anuncios_meta_boxes' );
+		$this->loader->add_filter( 'widgets_init', $plugin_admin, 'anuncios_widget' );
+
+		add_action( 'widgets_init', function(){
+	     register_widget( 'Anuncio_Widget' );     	    
+	});	
+
 
 	}
 
