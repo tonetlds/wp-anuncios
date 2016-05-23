@@ -53,9 +53,11 @@
 			if ( $post ) { 
 
 				$anuncio['url'] = get_post_meta( $post->ID, 'anuncio_url', true );
+				$anuncio['views'] = get_post_meta( $post->ID, 'anuncio_views', true );
 				$anuncio['image_desktop'] = get_post_meta( $post->ID, 'anuncio_image_desktop', true );
 				$anuncio['image_tablet'] = get_post_meta( $post->ID, 'anuncio_image_tablet', true );
 				$anuncio['image_mobile'] = get_post_meta( $post->ID, 'anuncio_image_mobile', true );
+
 
 					?>
 
@@ -74,6 +76,12 @@
 			
 				<?php 
 				
+				// SET ANUNCIO VIEWS
+				$ad = new Wp_Anuncios();
+				$ad->setAnuncioViews( $post->ID );
+
+				echo '<i class="fa fa-eye"></i> ' . $anuncio['views'];
+
 			} else {
 			
 				echo __( 'No advertising found.', 'wp-anuncios' );

@@ -75,6 +75,9 @@ class Wp_Anuncios {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+		// Remove issues with prefetching adding extra views
+		remove_action( 'wp_head', [$this, 'adjacent_posts_rel_link_wp_head'], 10, 0);
 	}
 
 	/**
@@ -221,6 +224,52 @@ class Wp_Anuncios {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	public function getAnuncioViews($postID){
+	    $count = get_post_meta($postID, 'anuncio_views', true);
+	    if(!$count){
+	        // delete_post_meta($postID, 'anuncio_views');
+	        // add_post_meta($postID, 'anuncio_views', 0);
+	        return "0 View";
+	    }
+	    return $count.' Views';
+	}
+	
+	public function setAnuncioViews($postID) {	    
+	    $count = get_post_meta($postID, 'anuncio_views', true);
+
+	    // if($count==''){	        
+	    //     delete_post_meta($postID, 'anuncio_views');
+	    //     add_post_meta($postID, 'anuncio_views', 0);
+	    // }else{
+	        $count = $count + 1;
+	        // $count = 0;
+	        update_post_meta($postID, 'anuncio_views', $count);
+	    // }
+	}
+
+	public function getAnuncioClicks($postID){
+	    $count_key = 'anuncio_clicks';
+	    $count = get_post_meta($postID, $count_key, true);
+	    if($count==''){
+	        delete_post_meta($postID, $count_key);
+	        add_post_meta($postID, $count_key, '0');
+	        return "0 Clicks";
+	    }
+	    return $count.' CLicks';
+	}
+	
+	public function setAnuncioClicks($postID) {
+	    $count_key = 'anuncio_clicks';
+	    $count = get_post_meta($postID, $count_key, true);
+	    if($count==''){	        
+	        delete_post_meta($postID, $count_key);
+	        add_post_meta($postID, $count_key, 0);
+	    }else{
+	        $count++;
+	        update_post_meta($postID, $count_key, $count);
+	    }
 	}
 
 }

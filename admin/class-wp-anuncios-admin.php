@@ -171,6 +171,33 @@ class Wp_Anuncios_Admin {
 		    $section = 'image_';
 
 		    $meta_boxes[] = array(
+				'title'  => __( 'Estatísticas' ),
+				'post_types' => 'advertising',						
+				'fields' => array(
+					array(
+						'name' => __( 'Views', 'wp-anuncios' ),
+						'id'   => $prefix.'views',
+						'type' => 'number',						
+						'attributes' => array(
+						    'disabled'  => true,
+						    'readonly'  => 'readonly',
+						    'min' 		=> 0
+						)
+					),
+					array(
+						'name' => __( 'Cliques', 'wp-anuncios' ),
+						'id'   => $prefix.'clicks',
+						'type' => 'number',						
+						'attributes' => array(
+						    'disabled'  => true,
+						    'readonly'  => 'readonly',
+						    'min' 		=> 0
+						)
+					)
+				)				
+			);    		    
+
+		    $meta_boxes[] = array(
 				'title'  => __( 'Link' ),
 				'post_types' => 'advertising',						
 				'fields' => array(
