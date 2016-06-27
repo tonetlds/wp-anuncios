@@ -14,15 +14,17 @@
  *
  * @wordpress-plugin
  * Plugin Name:       WP Anúncios
- * Plugin URI:        http://google.com.br
+ * Plugin URI:        https://github.com/tonetlds/wp-anuncios
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
- * Author:            Luciano
+ * Author:            Luciano T.
  * Author URI:        http://lucianotonet.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wp-anuncios
  * Domain Path:       /languages
+ * GitHub Plugin URI: https://github.com/tonetlds/wp-anuncios
+ * GitHub Branch:     master
  */
 
 // If this file is called directly, abort.

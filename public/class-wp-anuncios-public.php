@@ -95,8 +95,11 @@ class Wp_Anuncios_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		wp_enqueue_script( 'firebase', plugin_dir_url( __FILE__ ) . 'js/firebase.js', array( 'jquery' ), $this->version, false );
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-anuncios-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-anuncios-public.js', array( 'firebase' ), $this->version, false );
+
+
 
 	}
 

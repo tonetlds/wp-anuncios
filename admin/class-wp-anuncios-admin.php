@@ -174,24 +174,36 @@ class Wp_Anuncios_Admin {
 				'title'  => __( 'Estatísticas' ),
 				'post_types' => 'advertising',						
 				'fields' => array(
+					array(			            
+			            'id'   => $prefix.'statistics',
+			            'type' => 'statistics',
+			            'descr'=> 'teste'
+			        ),
 					array(
 						'name' => __( 'Views', 'wp-anuncios' ),
 						'id'   => $prefix.'views',
-						'type' => 'number',						
+						'type' => 'hidden',						
 						'attributes' => array(
 						    'disabled'  => true,
-						    'readonly'  => 'readonly',
-						    'min' 		=> 0
+						    'readonly'  => 'readonly'						    
 						)
 					),
 					array(
-						'name' => __( 'Cliques', 'wp-anuncios' ),
-						'id'   => $prefix.'clicks',
-						'type' => 'number',						
+						'name' => __( 'Sessões', 'wp-anuncios' ),
+						'id'   => $prefix.'sessions',
+						'type' => 'hidden',						
 						'attributes' => array(
 						    'disabled'  => true,
-						    'readonly'  => 'readonly',
-						    'min' 		=> 0
+						    'readonly'  => 'readonly'						    
+						)
+					),					
+					array(
+						'name' => __( 'Cliques', 'wp-anuncios' ),
+						'id'   => $prefix.'clicks',
+						'type' => 'hidden',						
+						'attributes' => array(
+						    'disabled'  => true,
+						    'readonly'  => 'readonly'						    
 						)
 					)
 				)				

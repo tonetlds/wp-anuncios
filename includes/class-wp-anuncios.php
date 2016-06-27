@@ -122,6 +122,8 @@ class Wp_Anuncios {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-anuncios-public.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-anuncios-widget.php';
+		
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-anuncios-statistics-field.php';
 
 		$this->loader = new Wp_Anuncios_Loader();
 
@@ -159,13 +161,14 @@ class Wp_Anuncios {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		$this->loader->add_action( 'init', $plugin_admin, 'register_cpt' );
+		$this->loader->add_action( 'init', $this, 'anuncio_session_start' );
 
 		$this->loader->add_filter( 'rwmb_meta_boxes', $plugin_admin, 'anuncios_meta_boxes' );
-		$this->loader->add_filter( 'widgets_init', $plugin_admin, 'anuncios_widget' );
+		$this->loader->add_filter( 'widgets_init', $plugin_admin, 'anuncios_widget' );		
 
 		add_action( 'widgets_init', function(){
-	     register_widget( 'Anuncio_Widget' );     	    
-	});	
+		    register_widget( 'Anuncio_Widget' );     	    
+		});	
 
 
 	}
@@ -227,42 +230,49 @@ class Wp_Anuncios {
 	}
 
 	public function getAnuncioViews($postID){
-	    $count = get_post_meta($postID, 'anuncio_views', true);
-	    if(!$count){
-	        // delete_post_meta($postID, 'anuncio_views');
-	        // add_post_meta($postID, 'anuncio_views', 0);
-	        return "0 View";
-	    }
-	    return $count.' Views';
+	    return get_post_meta($postID, 'anuncio_views', true) ? get_post_meta($postID, 'anuncio_views', true) : 0;	    
 	}
 	
 	public function setAnuncioViews($postID) {	    
-	    $count = get_post_meta($postID, 'anuncio_views', true);
-
-	    // if($count==''){	        
-	    //     delete_post_meta($postID, 'anuncio_views');
-	    //     add_post_meta($postID, 'anuncio_views', 0);
-	    // }else{
-	        $count = $count + 1;
-	        // $count = 0;
-	        update_post_meta($postID, 'anuncio_views', $count);
-	    // }
+	    $count = get_post_meta($postID, 'anuncio_views', true) ? get_post_meta($postID, 'anuncio_views', true) : 0;
+	    $count = $count + 1;	    
+	    update_post_meta($postID, 'anuncio_views', $count);	    
 	}
+
+	public function setAnuncioSessions($postID) {	 
+	    
+	    $sessionID 	 = session_id();	    
+
+	    if( !isset($_SESSION[ $sessionID ]) ) {
+	    	$_SESSION[ $sessionID ] = Array();
+	    }
+		    
+	    if( !isset($_SESSION[ $sessionID ][ $postID ] )  ){
+	    	$_SESSION[ $sessionID ][ $postID ] = 0;
+
+		    $count = get_post_meta($postID, 'anuncio_sessions', true) ? get_post_meta($postID, 'anuncio_sessions', true) : 0;
+		    $count = $count + 1;
+		    update_post_meta($postID, 'anuncio_sessions', $count);
+
+	    }else{
+	    	$_SESSION[ $sessionID ][ $postID ] = $_SESSION[ $sessionID ][ $postID ] + 1;    			    
+	    }	   
+
+	}
+
+	public function getAnuncioSessions($postID){
+	    return get_post_meta($postID, 'anuncio_sessions', true) ? get_post_meta($postID, 'anuncio_sessions', true) : 0;	    
+	}
+	
 
 	public function getAnuncioClicks($postID){
 	    $count_key = 'anuncio_clicks';
-	    $count = get_post_meta($postID, $count_key, true);
-	    if($count==''){
-	        delete_post_meta($postID, $count_key);
-	        add_post_meta($postID, $count_key, '0');
-	        return "0 Clicks";
-	    }
-	    return $count.' CLicks';
+	    return get_post_meta($postID, $count_key, true) ? get_post_meta($postID, $count_key, true) : 0;
 	}
 	
 	public function setAnuncioClicks($postID) {
 	    $count_key = 'anuncio_clicks';
-	    $count = get_post_meta($postID, $count_key, true);
+	    $count = get_post_meta($postID, $count_key, true) ? get_post_meta($postID, $count_key, true) : 0;
 	    if($count==''){	        
 	        delete_post_meta($postID, $count_key);
 	        add_post_meta($postID, $count_key, 0);
@@ -270,6 +280,12 @@ class Wp_Anuncios {
 	        $count++;
 	        update_post_meta($postID, $count_key, $count);
 	    }
+	}
+
+	public function anuncio_session_start() {	
+	    if(!session_id()) {
+	        session_start();
+	    }			  
 	}
 
 }
