@@ -2,17 +2,17 @@
 	'use strict';
 
 	$(document).ready(function() {
-		
+
 		$.each( $('.wp-anuncio:visible'), function(index, el) {
-			
+
 			console.log( el.getAttribute('data-id') );
 
 			ga('set', 'campaignName', 'anuncio_'+el.getAttribute('data-id') );
 
 			ga('send', 'event', 'anuncio_'+el.getAttribute('data-id'), 'view', window.location.href , {
 			  	nonInteraction: true
-			});			
-		});		
+			});
+		});
 
 		$('.wp-anuncio:visible').click(function(e) {
 			e.preventDefault();
@@ -22,12 +22,14 @@
 			ga('send', 'event', 'anuncio_'+$(this).data('id'), 'click', $(this).attr('href'), {
 				nonInteraction: false
 			});
-			
-			console.log('Clicked ' + $(this).data('id')  );
+
+			console.log('Clicked ad #' + $(this).data('id'), "Opening " + $(this).attr('href').toString() );
+
+			window.open($(this).attr('href'),'_blank');			
 
 			return false;
 		});
-		
+
 	});
 
 

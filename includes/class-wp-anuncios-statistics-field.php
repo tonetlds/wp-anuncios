@@ -2,7 +2,7 @@
 if ( class_exists( 'RWMB_Field' ) )
 {
     class RWMB_Statistics_Field extends RWMB_Field
-    {	   
+    {
 	    static public function html( $meta, $field ){
 
 	    	$postID 			= get_the_ID();
@@ -25,10 +25,6 @@ if ( class_exists( 'RWMB_Field' ) )
 									<h3>%s</h3>
 									<p>%s</p>
 								</td>
-								<td align="center" width="%s">
-									<h3>%s</h3>
-									<p>%s</p>
-								</td>
 							</tr>
 						</table>';
 
@@ -36,15 +32,15 @@ if ( class_exists( 'RWMB_Field' ) )
 		        $output,
 		        $field['id'],
 		        '100%',
-		        '33%',
+		        '50%',
 		        $anuncio_views,
 		        'Exibiçoes',
-		        '33%',
+		        '50%',
 		        $anuncio_sessions,
 		        'Pessoas',
-		        '33%',
-		        $anuncio_clicks,
-		        'Cliques',
+		        // '33%',
+		        // $anuncio_clicks,
+		        // 'Cliques',
 		        $meta,
 		        $field['field_name'],
 		        $field['descr']
